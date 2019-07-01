@@ -90,6 +90,8 @@ git clone https://aur.archlinux.org/pamac-aur.git
 cd pamac-aur
 makepkg -si
 
+sudo pacman -S kde-gtk-config
+
 [open pamac]
 (enable AUR)
 (install kde-gtk-config)
