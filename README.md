@@ -1,1 +1,1 @@
-Lukas' Arch Linux Installation Instructions
+Lukas' Arch Linux Installation Guide
