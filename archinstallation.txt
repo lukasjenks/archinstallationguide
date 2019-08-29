@@ -21,7 +21,7 @@ LUKAS' ARCH INSTALLATION & SETUP PROCEDURE
      *`                            `*
 
 -------------------------------------------------------------------------------
-Last Updated: 2019-06-30
+Last Updated: 2019-08-29
 -------------------------------------------------------------------------------
 Note: This installation procedure utilizes systemd-boot as its bootloader
 as opposed to GRUB. I've made this decision as systemd-boot is more secure,
