@@ -201,44 +201,93 @@ vim /etc/locale.gen
 
 locale-gen 
 
-(33)
+(33) Soft link locale to local time
+
 ln -s /usr/share/zoneinfo/Canada/Mountain /etc/localtime
+
+(34) Synchronize system clock to UTC time
+
 hwclock --systohc --utc
+
+(35) Enable ssh (reccomended)
+
 systemctl enable sshd.service
+
+(36) Install bootctl
+
 bootctl install
+
+(37) cd into loader directory and edit loader.conf config file with chosen text editor
+
 cd /boot/loader
 emacs loader.conf
-----
+
+(38) Enter the following into the loader.conf file and save the file
+
 default arch
 timeout 5
-----
+
+(39) cd into entries directory and edit arch.conf config file with chosen text editor
+
 cd entries
 emacs arch.conf
-----
+
+(40) Enter the following into arch.conf and save the file. In [output of blkid], you
+     must enter the partition identifier for your root partition, which is listed
+     in the output of blkid. Directions for how to obtain the output of this command
+     and read it into the file are found in brackets below for emacs and vim.
+
 title ArchLinux
 linux /vmlinuz-linux
 initrd /initramfs-linux.img
 options root=[output of blkid] rw
 (in vim - Esc :r !blkid, in emacs, C-u M-! blkid Ret)
-----
+
+(41) Exit the chroot environment and unmount the partitions, then reboot into the installed
+     system (remove the USB drive containing the live environment after rebooting)
+     
 exit
 umount /mnt
 reboot
 
-(log into system as root)
+(42) Log into the system as root and set locale
+
 localectl set-locale LANG="en_CA.UTF-8"
+
+(43) Add a user account for your personal use
+
 useradd -m -g users -s /bin/bash [username]
+
+(44) Install the sudo command and use visudo to add yourself to the sudoers group
+
 pacman -S sudo
 visudo
+
+(45) Install vital packages for network access
+
 pacman -Sy networkmanager network-manager-applet wireless_tools wpa_supplicant wpa_actiond
+
+(46) Install vital packages for xorg and graphical displays
+
 pacman -S xf86-input-libinput xorg-server xorg-init xorg-apps mesa
 pacman -S xf86-video-intel xf86-video-vesa
+
+(47) Install the sddm display manager and the plasma KDE desktop environment
+
 pacman -S sddm
 pacman -S plasma
 pacman -S kde-applications
+
+(48) Enable the sddm display manager for initialization upon startup
+
 systemctl enable sddm
+
+(49) Enable the network manager service for wireless access, then reboot into your system.
+
 sudo systemctl enable NetworkManager.service
 reboot
+
+------------------ OPTIONAL STEPS ------------------
 
 [login]
 [open terminal]
