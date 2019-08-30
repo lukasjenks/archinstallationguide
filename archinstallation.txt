@@ -161,9 +161,9 @@ mount [rootpartition] /mnt
      
 mount [homepartition] /mnt/home
 
-(25) Now, mount the swap partition. Again, in the case a prompt comes up, simply press Enter.
+(25) Now, mount the boot partition. Again, in the case a prompt comes up, simply press Enter.
 
-mount [swappartition] /mnt/swap
+mount [bootpartition] /mnt/boot
 
 (26) With the hard drive ready to write to, execute the following to intall the base
      packages of Arch Linux, the optional base-devel package (to make your life easier),
@@ -240,8 +240,8 @@ emacs arch.conf
 title ArchLinux
 linux /vmlinuz-linux
 initrd /initramfs-linux.img
-options root=[output of blkid] rw
-(in vim - Esc :r !blkid, in emacs, C-u M-! blkid Ret)
+options root=PARTUUID=[raw output of blkid root partition code, no quotes] rw
+(in vim - Esc :r !blkid [ENTER], in emacs, C-u M-! blkid [ENTER])
 
 (41) Exit the chroot environment and unmount the partitions, then reboot into the installed
      system (remove the USB drive containing the live environment after rebooting)
@@ -265,11 +265,11 @@ visudo
 
 (45) Install vital packages for network access
 
-pacman -Sy networkmanager network-manager-applet wireless_tools wpa_supplicant wpa_actiond
+pacman -S networkmanager network-manager-applet wireless_tools wpa_supplicant
 
 (46) Install vital packages for xorg and graphical displays
 
-pacman -S xf86-input-libinput xorg-server xorg-init xorg-apps mesa
+pacman -S xf86-input-libinput xorg-server xorg-xinit xorg-apps mesa
 pacman -S xf86-video-intel xf86-video-vesa
 
 (47) Install the sddm display manager and the plasma KDE desktop environment
