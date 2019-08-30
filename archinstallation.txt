@@ -157,11 +157,13 @@ mkfs.ext4 [homepartition]
 mount [rootpartition] /mnt
 
 (24) Now, mount the home partition. If Arch asks if you would like to create the /mnt/home
-     directory as it does not exist, simply press Enter to agree.
+     directory as it does not exist, simply press Enter to agree. If the directory doesn't
+     exist, simply run mkdir /mnt/home.
      
 mount [homepartition] /mnt/home
 
 (25) Now, mount the boot partition. Again, in the case a prompt comes up, simply press Enter.
+     If the directory doesn't exist, simply run mkdir /mnt/boot.
 
 mount [bootpartition] /mnt/boot
 
