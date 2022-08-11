@@ -23,7 +23,7 @@
 
 ---
 
-### Last Updated: 2022-07-19
+### Last Updated: 2022-08-20
 
 Note: This installation procedure utilizes systemd-boot as its bootloader
 as opposed to GRUB. I've made this decision as systemd-boot is more secure,
@@ -422,10 +422,10 @@ Printer setup
 ```
 [login]
 [open terminal GUI app, e.g. konsole]
-sudo pacman -S cups
-sudo systemctl enable org.cups.cupsd.service
+sudo pacman -S cups system-config-printer
+sudo systemctl enable cups
 sudo usermod -aG sys [username]
-[install printer drivers]
+[open printers kde application to configure]
 ```
 
 ### (50) 
@@ -433,6 +433,7 @@ Install pamac pacman GUI app and enable AUR support within it
 
 ```
 cd /tmp
+sudo pacman -S git
 git clone https://aur.archlinux.org/pamac-aur.git
 cd pamac-aur
 makepkg -si
@@ -441,8 +442,19 @@ makepkg -si
 [enable AUR]
 ```
 
-### (51) 
-Install helpful AUR kde packages using pamac:
+### (51)
+Install `yay`, a cli option for managing AUR packages, if desired:
+
+```
+cd /opt
+sudo git clone https://aur.archlinux.org/yay-git.git
+sudo chown -R <type username here>:<type username here> ./yay-git
+cd yay-git
+makepkg -si
+```
+
+### (52) 
+Install helpful AUR kde packages using pamac or yay:
 
 ```
 [install kde-gtk-config]
