@@ -306,7 +306,7 @@ title ArchLinux
 linux /vmlinuz-linux
 initrd /initramfs-linux.img
 options root=PARTUUID=[raw output of blkid root partition code, no quotes] rw
-(in vim - Esc :r !blkid [ENTER], in emacs, C-u M-! blkid [ENTER])
+(in vim - Esc :r !blkid [ENTER], in emacs, C-u M-x shell-command blkid [ENTER])
 ```
 
 Now we need to confirm that our entries are valid before rebooting.
