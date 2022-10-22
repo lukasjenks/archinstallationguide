@@ -220,7 +220,7 @@ get into our newly installed system, without restarting the computer.
 `arch-chroot /mnt`
 
 ### (29) 
-Here, I reccomend setting a root password, for security.
+I reccomend setting the root password now.
 
 `passwd`
 
@@ -234,7 +234,7 @@ internet during the installation process and beyond. Specifically, netctl gives 
 wifi-menu for quick setup, and dhcpcd gives us quick access to the daemon of the same name
 should we want to use an ethernet connection during install instead.
 
-`pacman -S openssh linux linux-headers linux-lts linux-lts-headers linux-firmware wpa_supplicant wireless_tools dhcpcd netctl`
+`pacman -S openssh linux linux-headers linux-lts linux-lts-headers linux-firmware wpa_supplicant wireless_tools dhcpcd netctl dialog`
 
 ### (31) 
 Next, we must generate our locale. Locale represents your region. Open the /etc/locale.gen
