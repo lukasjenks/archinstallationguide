@@ -23,7 +23,7 @@
 
 ---
 
-### Last Updated: 2022-08-20
+### Last Updated: 2023-02-19
 
 Note: This installation procedure utilizes systemd-boot as its bootloader
 as opposed to GRUB. I've made this decision as systemd-boot is more secure,
@@ -77,7 +77,8 @@ Execute the following to open a new gdisk session.
     
 `gdisk [harddrive]`
 
-### (8) Within this new gdisk prompt, certain letters represent certain operations.
+### (8) 
+Within this new gdisk prompt, certain letters represent certain operations.
 To create a new GPT partition table on the hard drive (and thus format it),
 execute the following. If you are installing Arch alongside Windows, skip to
 step 12, and *do not* execute commands 8, 9, 10, or 11.
@@ -258,35 +259,35 @@ Soft link locale to local time (replace with your personal location)
 
 `ln -s /usr/share/zoneinfo/Canada/Mountain /etc/localtime`
 
-### (35) 
+### (34) 
 Enable ssh (reccomended but not required)
 
 `systemctl enable sshd.service`
 
-### (36) 
+### (35) 
 Install bootctl
 
 `bootctl install`
 
-### (37) 
+### (36) 
 cd into loader directory and edit loader.conf config file with chosen text editor
 
 `cd /boot/loader`
 `emacs loader.conf`
 
-### (38) 
+### (37) 
 Enter the following into the loader.conf file and save the file
 
 `default arch`
 `timeout 5`
 
-### (39) 
+### (38) 
 cd into entries directory and edit arch.conf config file with chosen text editor
 
 `cd entries`
 `emacs arch.conf`
 
-### (40) 
+### (39) 
 Enter the following into arch.conf and save the file. In [output of blkid], you
 must enter the partition identifier for your root partition, which is listed
 in the output of blkid. Directions for how to obtain the output of this command
@@ -310,21 +311,21 @@ which will occur if you forgot the command earlier:
 
 `pacman -S linux`
 
-(41) Exit the chroot environment and unmount the partitions, then reboot into the installed
+### (40) Exit the chroot environment and unmount the partitions, then reboot into the installed
 system (remove the USB drive containing the live environment after rebooting)
 
-```
+```bash
 exit
 umount /mnt
 reboot
 ```
 
-### (42) 
+### (41) 
 Log into the system as root and set hostname
 
 `hostnamectl set-hostname [desired computer name]`
 
-### (43) 
+### (42) 
 Add a user account for your personal use
 
 `useradd -m -g users -s /bin/bash [username]`
@@ -336,31 +337,37 @@ Then connect to the internet:
 If unable to use wifi-menu to connect to the internet, opt for an ethernet connection and
 execute the following instead:
 
-```
+```bash
 systemctl enable dhcpcd
 systemctl start dhcpcd
 ```
 
-### (44) 
+NOTE: you will have to disable dhcpcd later if you want to use `NetworkManager` as this guide
+does later.
+
+### (43) 
 Install the sudo command and use visudo to add yourself to the sudoers group by adding
 a line under the line specifying the rules for root with an identical line, only using
 your username instead of "root".
 
-```
+```bash
 pacman -S sudo
 visudo
 ```
+
+(Alternatively, you can manually edit `/etc/sudoers` using an editor - it just will let you save
+the file without performing syntax validation on the file of course, which can be dangerous)
 
 Then set a password for your user so that you can log in to the desktop environment later:
 
 `passwd [username]`
 
-### (45) 
+### (44) 
 Install vital packages for automatic network management
 
 `pacman -S networkmanager network-manager-applet`
 
-### (46) 
+### (45) 
 Install vital packages for xorg and graphical display drivers and backup drivers like mesa and vesa
 
 `pacman -S xf86-input-libinput xorg-server xorg-xinit xorg-apps mesa xf86-video-intel xf86-video-vesa`
@@ -368,18 +375,17 @@ Install vital packages for xorg and graphical display drivers and backup drivers
 If you are running and nvidia card, you might want to install that driver now and configure x to use
 that also:
 
-```
+```bash
 pacman -S nvidia
 nvidia-xconfig
 ```
 
-### (47) 
+### (46) 
 Install the sddm display manager and the plasma KDE desktop environment. Alternatively, you can use
 the gnome-desktop DE and gdm display manager to run gnome, etc.
 
-```
-pacman -S sddm
-pacman -S plasma
+```bash
+pacman -S sddm plasma wayland plasma-wayland-session
 ```
 
 Optional, but provides many helpful GUI apps:
@@ -415,10 +421,10 @@ Then reboot into your system:
 
 ------------------ OPTIONAL STEPS ------------------
 
-### (49) 
+### (50) 
 Printer setup
 
-```
+```bash
 [login]
 [open terminal GUI app, e.g. konsole]
 sudo pacman -S cups system-config-printer
@@ -427,10 +433,10 @@ sudo usermod -aG sys [username]
 [open printers kde application to configure]
 ```
 
-### (50) 
+### (51) 
 Install pamac pacman GUI app and enable AUR support within it
 
-```
+```bash
 cd /tmp
 sudo pacman -S git
 git clone https://aur.archlinux.org/pamac-aur.git
@@ -441,10 +447,10 @@ makepkg -si
 [enable AUR]
 ```
 
-### (51)
+### (52)
 Install `yay`, a cli option for managing AUR packages, if desired:
 
-```
+```bash
 cd /opt
 sudo git clone https://aur.archlinux.org/yay-git.git
 sudo chown -R <type username here>:<type username here> ./yay-git
@@ -452,10 +458,37 @@ cd yay-git
 makepkg -si
 ```
 
-### (52) 
+### (53)
+If you use a USB-3 dock, especially one with power delivery, you may experience
+a common issue where it connects buts every so often disconnects and reconnects.
+To solve this check the output of this:
+
+`cat /sys/module/usbcore/parameters/autosuspend`
+
+If the output is 2, likely the issue is due to this and can be solved by running:
+
+`echo -1 > /sys/module/usbcore/parameters/autosuspend`
+
+To fix the issue permanently (persist after reboot), add the kernel option `usbcore.autosuspend=-1`.
+
+If you are using GRUB as your bootloader, you can do this by adding the option to `/etc/default/grub`
+at the end of the line in `GRUB_CMDLINE_LINUX_DEFAULT`, then running `sudo update-grub`.
+
+If you are using bootctl as this install prefers (e.g. if you followed this installation guide),
+simply add the kernel option to the end of the line that ends with the root PARTUUID followed by `rw`
+that you created earlier in `arch.conf`.
+
+### (53) 
 Install helpful AUR kde packages using pamac or yay:
 
+```bash
+sudo pacman -S kde-gtk-config libappindicator-gtk2 libappindicator-gtk3
 ```
-[install kde-gtk-config]
-[install libappindicator-gtk2 and libappindicator-gtk3, etc.]
-```
+
+### Notes
+
+Due to having installed both X11 and Wayland and the dependencies needed to run KDE plasma with both,
+on the login screen you will notice a dropdown on the top left giving you the option to login to a
+Wayland session or X11 session. While Wayland is intended to supercede and replace X11 and allows for
+easier use of displaylink and fractional scaling differences between monitors, it still does
+have some issues in some situations, causing some users to prefer using X. Feel free to try both.
