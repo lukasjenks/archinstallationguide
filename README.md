@@ -234,7 +234,7 @@ internet during the installation process and beyond. Specifically, netctl gives 
 wifi-menu for quick setup, and dhcpcd gives us quick access to the daemon of the same name
 should we want to use an ethernet connection during install instead.
 
-`pacman -S openssh linux linux-headers linux-lts linux-lts-headers linux-firmware wpa_supplicant wireless_tools dhcpcd netctl dialog`
+`pacman -S openssh linux linux-headers linux-lts linux-lts-headers linux-firmware wpa_supplicant wireless_tools dhcpcd netctl dnsmasq konsole`
 
 ### (31) 
 Next, we must generate our locale. Locale represents your region. Open the /etc/locale.gen
@@ -252,20 +252,11 @@ Now execute the following command to generate your locale, and the command liste
 your computers' hostname
 
 `locale-gen`
-`hostnamectl set-hostname [desired computer name]`
 
 ### (33) 
 Soft link locale to local time (replace with your personal location)
 
 `ln -s /usr/share/zoneinfo/Canada/Mountain /etc/localtime`
-
-### (34) 
-Install and start the ntp daemon, which will keep your system time in sync. Note that if you are dual booting, you will
-have to change your windows settings to avoid conflicts in general between Linux and Windows.
-
-`pacman -S ntp`
-`systemctl enable ntp`
-`systemctl start ntp`
 
 ### (35) 
 Enable ssh (reccomended but not required)
@@ -329,9 +320,9 @@ reboot
 ```
 
 ### (42) 
-Log into the system as root and set locale
+Log into the system as root and set hostname
 
-`localectl set-locale LANG="en_CA.UTF-8"`
+`hostnamectl set-hostname [desired computer name]`
 
 ### (43) 
 Add a user account for your personal use
@@ -394,6 +385,14 @@ pacman -S plasma
 Optional, but provides many helpful GUI apps:
 
 `pacman -S kde-applications`
+
+### (47) 
+Install and start the ntp daemon, which will keep your system time in sync. Note that if you are dual booting, you will
+have to change your windows settings to avoid conflicts in general between Linux and Windows.
+
+`pacman -S ntp`
+`systemctl enable ntp`
+`systemctl start ntp`
 
 ### (48) 
 Enable the sddm display manager for initialization upon startup
