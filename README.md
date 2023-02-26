@@ -485,6 +485,23 @@ Install helpful AUR kde packages using pamac or yay:
 sudo pacman -S kde-gtk-config libappindicator-gtk2 libappindicator-gtk3
 ```
 
+### (54)
+If you are ok with running 32 bit packages on your 64 bit system, enable the multililib repository
+to have access to more packages through pacman. (I reccomend doing this).
+
+To do this, edit `/etc/pacman.conf` and uncomment these lines:
+
+```bash
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+```
+
+For the change to take effect, update pacman's database with the repository contents using
+
+```bash
+sudo pacman -Syy
+```
+
 ### Notes
 
 Due to having installed both X11 and Wayland and the dependencies needed to run KDE plasma with both,
