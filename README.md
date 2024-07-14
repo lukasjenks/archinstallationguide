@@ -25,7 +25,7 @@
 
 ## Installation Procedure
 
-### Last Updated: 2023-02-19
+### Last Audited and Revised: 2023-02-19
 
 Note: This installation procedure utilizes systemd-boot as its bootloader
 as opposed to GRUB. I've made this decision as systemd-boot is more secure,
