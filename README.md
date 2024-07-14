@@ -23,6 +23,8 @@
 
 ---
 
+## Installation Procedure
+
 ### Last Updated: 2023-02-19
 
 Note: This installation procedure utilizes systemd-boot as its bootloader
@@ -419,7 +421,9 @@ Then reboot into your system:
 
 `reboot`
 
------------------- OPTIONAL STEPS ------------------
+---
+
+## Optional Setup
 
 ### (50) 
 Printer setup
@@ -478,7 +482,7 @@ If you are using bootctl as this install prefers (e.g. if you followed this inst
 simply add the kernel option to the end of the line that ends with the root PARTUUID followed by `rw`
 that you created earlier in `arch.conf`.
 
-### (53) 
+### (54) 
 Install helpful AUR kde packages using pamac or yay:
 
 ```bash
