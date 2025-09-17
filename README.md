@@ -25,7 +25,7 @@
 
 ## Installation Procedure
 
-### Last Audited and Revised: 2023-02-19
+### Last Audited and Revised: 2025-09-17
 
 Note: This installation procedure utilizes systemd-boot as its bootloader
 as opposed to GRUB. I've made this decision as systemd-boot is more secure,
@@ -194,12 +194,14 @@ Now, mount the home partition. If Arch asks if you would like to create the /mnt
 directory as it does not exist, simply press Enter to agree. If the directory doesn't
 exist, simply run mkdir /mnt/home.
 
+`mkdir /mnt/home`
 `mount [homepartition] /mnt/home`
 
 ### (25) 
 Now, mount the boot partition. Again, in the case a prompt comes up, simply press Enter.
-If the directory doesn't exist, simply run mkdir /mnt/boot.
+If the directory doesn't exist, simply run mkdir /mnt/boot after making that dir.
 
+`mkdir /mnt/boot`
 `mount [bootpartition] /mnt/boot`
 
 ### (26) 
@@ -280,8 +282,10 @@ cd into loader directory and edit loader.conf config file with chosen text edito
 ### (37) 
 Enter the following into the loader.conf file and save the file
 
-`default arch`
-`timeout 5`
+```
+default arch
+timeout 5
+```
 
 ### (38) 
 cd into entries directory and edit arch.conf config file with chosen text editor
@@ -318,6 +322,8 @@ system (remove the USB drive containing the live environment after rebooting)
 
 ```bash
 exit
+umount /mnt/home
+umount /mnt/boot
 umount /mnt
 reboot
 ```
