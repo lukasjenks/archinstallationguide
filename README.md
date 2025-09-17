@@ -405,8 +405,8 @@ Install and start the ntp daemon, which will keep your system time in sync. Note
 have to change your windows settings to avoid conflicts in general between Linux and Windows.
 
 `pacman -S ntp`
-`systemctl enable ntp`
-`systemctl start ntp`
+`systemctl enable ntpd`
+`systemctl start ntpd`
 
 ### (48) 
 Enable the sddm display manager for initialization upon startup
