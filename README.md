@@ -393,7 +393,7 @@ Install the sddm display manager and the plasma KDE desktop environment. Alterna
 the gnome-desktop DE and gdm display manager to run gnome, etc.
 
 ```bash
-pacman -S sddm plasma wayland plasma-wayland-session
+pacman -S sddm plasma wayland plasma-workspace
 ```
 
 Optional, but provides many helpful GUI apps:
